@@ -5,9 +5,9 @@ This repository contains files with Matlab code used to format meteorological va
  ## Functions
  The following gives a brief description of the individual files:
  * **main.m**: This script is the only one to modify and execute. In it, the **Input** parameters (see below) of the ERA5LAND_EXTRACT.m must be specified. The variables to modify in this script are identified with the comment: **%To modify**
- * **ERA5LAND_EXTRACT.m**:  This is the main function. It reads, concatenates and converts the \*.nc files to local time.
+ * **ERA5LAND_EXTRACT.m**:  This is the primary function. It reads, concatenates and converts the \*.nc files to local time.
  * **getVariables.m**: A small function used by the ERA5LAND_EXTRACT.m function to read the \*.nc files.
- * **descVar.m**: A small function to deaccumulate variables accumulated from the beginning of the forecast time to the end of the forecast step (e.g., Total precipitation, Evaporation). This is specified by the **VarType input**.
+ * **descVar.m**: A small function to deaccumulate variables accumulated from the beginning of the forecast time to the end of the forecast step (e.g., Total precipitation, Evaporation). The **VarType input** specifies this.
 
 ## Inputs
  * **dataPath**: Path where the \*.nc files are located.
