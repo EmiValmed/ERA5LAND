@@ -33,7 +33,7 @@ The code is made to be used with any variable from the ERA5-Land database. The t
  ## Output
  
 The output is a Matlab file (**VarName.mat**) with the following variables:
-* **Data**: 3D matrix (longitude,latitude,time) with the values of the meteorological variable.
+* **Data**: 3D matrix (longitude,latitude,time) with the values of the meteorological variable. Please note that output units are the same as ERA5-Land
 * **Date**: 2D datevec matrix (time,6) with the Date of the time series.
 * **Longitude**: vector with longitude coordinates.
 * **Latitude**: vector with latitude coordinates.
