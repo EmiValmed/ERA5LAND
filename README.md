@@ -1,6 +1,6 @@
 # ERA5LAND
 
-
+## Inputs:
 
  | **VarName** | **VarName_nc** | **VarType** |
  | --------------| ------------ |-----------|
@@ -13,6 +13,13 @@
  |    Wind_u     |     u10      |           | 
  |     Wind_v    |     v10      |           | 
  
+ 
+ ## Functions:
+ * **ERA5LAND_EXTRACT**
+ * **getVariables**:
+ * **descVar**:
+ * **r2cFile**:
+
 ## netCDF file specifications
 * The .nc file name must follow the format: **YYYY-MM-DD_YYYY-MM-DD.nc**, indicating the start and end date of the data. 
 
