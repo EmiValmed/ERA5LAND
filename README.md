@@ -9,7 +9,7 @@ This repository contains files with Matlab code used to format meteorological va
  * **getVariables.m**: A small function used by the ERA5LAND_EXTRACT.m function to read the \*.nc files.
  * **descVar.m**: A small function to deaccumulate variables accumulated from the beginning of the forecast time to the end of the forecast step (e.g., Total precipitation, Evaporation). The **VarType input** specifies this.
 
-## Inputs
+## Inputs (in the main.m script)
  * **dataPath**: Path where the \*.nc files are located.
  * **OutPath**: Path of the results.
  * **VarName_nc**: String variable with the meteo parameter's name attribute in the \*.nc file (see table below).
