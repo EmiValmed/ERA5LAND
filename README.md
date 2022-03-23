@@ -46,7 +46,7 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
       * End date: 2019-12-31
       
 * The .nc file should only contain one variable.  
-* 
+
 ## Creating .r2c files :computer: :floppy_disk:
  The **r2cFile** function allows to create .r2c files. The function depends heavily on the data structure of a particular project.
  ### Inputs
