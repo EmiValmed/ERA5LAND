@@ -2,13 +2,13 @@ function ERA5LAND_Extract(VarName_nc,VarName,VarType,LocalZone,dataPath,OutPath)
 % function ERA5LAND_Extract(VarName_nc,VarName,VarType,LocalZone,dataPath,OutPath)
 %
 %   INPUT:
-%       VarName_nc     - String variable with the meteo parameter's name attribute in the *.nc file 
+%       VarName_nc     - String variable with the meteo parameter's name attribute in the *.nc file
 %                        (e.g., 'tp' -- total precipitation; 't2m' -- temperature, etc.).
 %
-%       VarName        - String variable with the meteo parameter (e.g., Precipitation, 
+%       VarName        - String variable with the meteo parameter (e.g., Precipitation,
 %                        Temperature, Humidity, etc.).
 %
-%       VarType        - 1 if the values of the variable in ERA5LAND are accumulated 
+%       VarType        - 1 if the values of the variable in ERA5LAND are accumulated
 %                        over time (e.g., precipitation, evaporation), 0 otherwise.
 %
 %       LocalZone      - Time difference between UTC and the local time.
@@ -19,8 +19,8 @@ function ERA5LAND_Extract(VarName_nc,VarName,VarType,LocalZone,dataPath,OutPath)
 %
 %
 %   OUTPUT:
-%                      - A *.mat file with the Date, variable time serie, 
-%                        latitude and longitude. 
+%                      - A *.mat file with the Date, variable time serie,
+%                        latitude and longitude.
 
 
 
@@ -68,7 +68,7 @@ for iDates = 1: numel(StartDate)
     
     % Variable time serie and Date
     [dataVar,Date] = getVariables(VarName_nc,ncid);
-   
+    
     % Close NetCDF file
     netcdf.close(ncid);
     
@@ -97,25 +97,26 @@ Vartmp = cat(3,tmp2{2,:,:,:});            % Variable time serie.
 %% Step 6: Disaccumulating variable if required and convert time to local time
 
 TimeZone  = 'UTC';
+% Index to start and finish the diff (getting the hourly values without accumulating)
+diffSD = find(Datetmp(:,4)==1 & Datetmp(:,1)==StartYear, 1 );      % SD: start date.
+diffED = find(Datetmp(:,4)==0 & Datetmp(:,1)==EndYear, 1,'last');  % ED: End date.
 
 if VarType == 1
-    % Index to start and finish the diff (getting the hourly values without accumulating)
-    diffSD = find(Datetmp(:,4)==1 & Datetmp(:,1)==StartYear, 1 );      % SD: start date.
-    diffED = find(Datetmp(:,4)==0 & Datetmp(:,1)==EndYear, 1,'last');  % ED: End date.
     
     % Deaccumulate variables
     Vartmp1 = Vartmp(:,:,diffSD:diffED);
     Vartmp2 = descVar(Vartmp1,24,nlon,nlat);
     
-    % Local time
-    Datetmp = datetime(datenum(Datetmp(diffSD:diffED,:)),'ConvertFrom', 'datenum','TimeZone',TimeZone);
-    Datetmp.TimeZone = LocalZone;   % Conversion to local time.
-    
 else
-    Datetmp = datetime(datenum(Datetmp),'ConvertFrom', 'datenum','TimeZone',TimeZone);
-    Datetmp.TimeZone = LocalZone;   % Conversion to local time.
-    Vartmp2 = Vartmp;
+    
+    Vartmp2 = Vartmp(:,:,diffSD:diffED);
 end
+
+% Local time
+Datetmp = datetime(datenum(Datetmp(diffSD:diffED,:)),'ConvertFrom', 'datenum','TimeZone',TimeZone);
+Datetmp.TimeZone = LocalZone;   % Conversion to local time.
+
+
 
 % Considering full day at the local time
 LocalDate = datevec(Datetmp);
