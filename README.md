@@ -1,12 +1,14 @@
 # ERA5LAND
 
-## Inputs:
+## Inputs
  * **dataPath**: Path where the *.nc files are located.
  * **OutPath**: Path of the results.
  * **VarName_nc**: String variable with the meteo parameter's name attribute in the .nc file (e.g., 'tp' -- total precipitation; 't2m' -- temperature, etc.).
  * **VarName**: String variable with the meteo parameter (e.g., Precipitation, Temperature, Pression, etc.).
  * **VarType**: 1 if the values of the variable in ERA5LAND are accumulated over time (e.g., precipitation, evaporation), 0 otherwise.
  * **LocalZone**: Time difference between UTC and the local time.
+
+
 
 
  | **VarName** | **VarName_nc** | **VarType** |**Unit**|
@@ -20,8 +22,9 @@
  |    Wind_u     |     u10      |           |        |
  |     Wind_v    |     v10      |           |        |
  
+ ## Output
  
- ## Functions:
+ ## Functions
  * **ERA5LAND_EXTRACT**:
  * **getVariables**:
  * **descVar**:
