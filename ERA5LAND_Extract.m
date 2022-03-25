@@ -18,9 +18,9 @@ function ERA5LAND_Extract(VarName_nc,VarName,VarType,LocalZone,dataPath,OutPath)
 %       OutPath        - Path of the results.
 %
 %
-%   OUTPUT:
+%    OUTPUT:
 %                      - A *.mat file with the Date, variable time serie,
-%                        latitude and longitude.
+%                        latitude and longitude vectors, and latitude and logitude matrix (like a grid).
 
 
 
@@ -45,6 +45,9 @@ ncid = netcdf.open(fileToRead,'NC_NOWRITE');
 
 latitude = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'latitude'),'single');
 longitude = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'longitude'),'single');
+lonGrid = repmat(longitude, [1, size(latitude,1)])';
+latGrid = repmat(latitude, [1, size(longitude,1)]);
+
 nlat = length(latitude);
 nlon = length(longitude);
 
@@ -116,8 +119,6 @@ end
 Datetmp = datetime(datenum(Datetmp(diffSD:diffED,:)),'ConvertFrom', 'datenum','TimeZone',TimeZone);
 Datetmp.TimeZone = LocalZone;   % Conversion to local time.
 
-
-
 % Considering full day at the local time
 LocalDate = datevec(Datetmp);
 SD = find(LocalDate(:,4)==1 & LocalDate(:,1)==StartYear, 1 );      % SD: start date.
@@ -131,7 +132,7 @@ Data = Vartmp2(:,:,SD:ED);                                         % time (from 
 outfile = sprintf('%s/%s.mat',OutPath,VarName);
 
 % Export
-save(outfile,'Date','Data','latitude','longitude','-v7.3');
+save(outfile,'Date','Data','latitude','longitude','lonGrid','latGrid','-v7.3');
 
 %% Deleting matlab temporary files
 filePattern = fullfile(dataPath, '*.mat');
