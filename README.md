@@ -84,7 +84,6 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
     │   ├── Temperature     #: Folder with Temperature .nc files
     │   ├── Wind_u          #: Folder with u wind component .nc files
     │   └── Wind_v          #: Folder with V wind component .nc files
-    |
     ├── OutputERA5-Land     #: Folder with the .mat files (**OutPath** of the **main.m** function and **dataPath** of the **Creating_r2c.m function**) 
     └── r2cFiles            #: Folder with the .r2c files (**OutPath** of the **Creating_r2c.m function**)
 
