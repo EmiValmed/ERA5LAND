@@ -72,6 +72,7 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
 * This Repository must cotains the following folders:
 
     MESH-ERA5Land          : main folder
+    .
     ├── netCDF_Files       : Folder with the .nc data  (**dataPath** of the **main.m** function)             
     │   │
     │   ├── DewPoint       : Folder with DewPoint .nc files
