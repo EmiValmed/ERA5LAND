@@ -1,32 +1,140 @@
-function r2cFile(Data,VarName,Unit,latitude,longitude,Date,OutPath)
+function r2cFile(Data,Date,OutPath,OutName,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+%function r2cFile(Data,Date,OutPath,OutName,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+% INPUTS
+%       -Data                :  Meteorological variable time series.
+%
+%       -Date                :  Vector with the dates in datenum format.
+%
+%       -OutPath             :  Path of the results. 
+%
+%       -OutName             :  Output file name. Must correspond to the name 
+%                               of the meteorological variable specified by MESH 
+%                               docuemntation:
+%                               • rain
+%                               • humidity
+%                               • pres
+%                               • temperature                
+%                               • longwave
+%                               • shortwave
+%                               • wind
+%
+%       -:xOrigin            :  This is the x-coordinate of the point in the bottom left corner of the grid.
+%       -:yOrigin            :  This is the y-coordinate of the point in the bottom left corner of the grid.
+%       -:xCount             :  The number of points, or vertices, in each row of the grid,along the x-direction.
+%       -:yCount             :  The number of points, or vertices, in each column of the grid,along the y-direction.
+%       -:xDelta             :  The distance betwwen two adjacent points in a row.
+%       -:yDelta             :  The distance betwwen two adjacent points in a column.
+%
+% OUTPUT
+%       -basin_OutName.r2c   :  a .r2c files with the requiremts to fed the MESH
+%                              model.
 
+%% Specifications of the variable at a hand
+
+switch lower( OutName ) 
+    case 'rain'
+        fmt = [repmat(' %.7f ', 1, 5) '\n']; 
+        KeyName = 'PR0';
+        VarName = 'Precipitation_rate';
+        Unit    = 'mm/s';
+        
+    case 'humidity'
+        fmt = [repmat(' %.6f ', 1, 5) '\n']; 
+        KeyName = 'HU';
+        VarName =  'Specific_humidity';
+        Unit    = ' kg/kg';
+        
+    case 'pres'
+        fmt = [repmat(' %.1f ', 1, 5) '\n']; 
+        KeyName = 'PO';
+        VarName = 'Surface_Pressure';
+        Unit = 'Pa';
+        
+    case 'temperature'
+        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        KeyName = 'TT';
+        VarName = 'Air_temperature_40m';
+        Unit = 'K';
+        
+    case 'longwave'
+        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        KeyName = 'FI';
+        VarName = 'Longwave_down';
+        Unit = 'W/m2';
+        
+    case 'shortwave'
+        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        KeyName = 'FB';
+        VarName = 'Shortwave_down';
+        Unit = 'W/m2';
+        
+    case 'wind'
+        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        KeyName = 'UV';
+        VarName = 'Wind_speed';
+        Unit = 'm/s';
+        
+end
+
+%% CREATING .r2c file
+
+% Date format
 format_out =('"yyyy/mm/dd HH:MM:SS.000"');
 dtime_str  = datestr(Date, format_out);
 
-% création de la première grille 7x5 et le texte 
-FileNmeAndPath = fullfile(sprintf('%s/%s.r2c',OutPath,VarName));
-fVar = fopen(FileNmeAndPath, 'w');          % ouvrir le fichier r2c
-fmt = [repmat(' %.2f ', 1, 5) '\n']; % format des données
-xOrigin = longitude(1);
-yOrigin = latitude(end);
+% File name and path 
+FileNmeAndPath = fullfile(sprintf('%s/basin_%s.r2c',OutPath,OutName));
+fVar = fopen(FileNmeAndPath, 'w');          
 
-fprintf(fVar, '%s\n','########################################',':FileType r2c  ASCII  EnSim 1.0','#','# DataType               2D Rect Cell','#');
-fprintf(fVar, '%s\n',':Application             FORTRAN',':Version                 1.0.0',':WrittenBy               MSC/HAL/GIWS',':CreationDate            01/25/  13 19:12:44');
-fprintf(fVar, '%s\n','#','#---------------------------------------','#',':Name                    TT','#',':Projection              LATLONG',':Ellipsoid               WGS84');
-fprintf(fVar, '%s\n','#',sprintf(':xOrigin                  %s',xOrigin),sprintf(':yOrigin                   %s',yOrigin),'#',':SourceFile              XXXX/           X');
+% Creation Time
+t = datetime('now');
+CreationDate = datestr(t);
+
+% ---------------------------------------------------------------------------------------------------------------------------
+%                                                           Header
+% ---------------------------------------------------------------------------------------------------------------------------
+% Important!! 
+%It is highly recommended not to touch this block. The MESH model is sensitive to input formats.
+
+
+%Line 1-5
+fprintf(fVar, '%s\n','########################################',...
+    ':FileType r2c  ASCII  EnSim 1.0','#','# DataType               2D Rect Cell','#');
+
+%Line 6-9
+fprintf(fVar, '%s\n',':Application             FORTRAN',':Version                 1.0.0',':WrittenBy               HYDROMET TEAM',...
+    sprintf(':CreationDate            %s',CreationDate));
+
+%Line 10-15
+fprintf(fVar, '%s\n','#','#---------------------------------------','#',sprintf(':Name                    %s',KeyName),...
+    '#',':Projection              LATLONG',':Ellipsoid               WGS84');
+
+%Line 16-20
+fprintf(fVar, '%s\n','#',sprintf(':xOrigin                  %s',xOrigin),sprintf(':yOrigin                   %s',yOrigin),...
+    '#',':SourceFile              XXXX/           X');
+
+%Line 21-24
 fprintf(fVar, '%s\n', '#',sprintf(':AttributeName           %s',VarName),sprintf(':AttributeUnit           %s',Unit),'#');
-fprintf(fVar, '%s\n',':xCount                   5',':yCount                   7',':xDelta                   0.205960',':yDelta                   0.134740','#','#');
+
+%Line 25-30
+fprintf(fVar, '%s\n',sprintf(':xCount                   %d',xCount),sprintf(':yCount                   %d',yCount),...
+    sprintf(':xDelta                   %.6f',xDelta),sprintf(':yDelta                   %.6f',yDelta),'#','#');
+
+%Line 31
 fprintf(fVar, '%s\n', ':endHeader');
+% ---------------------------------------------------------------------------------------------------------------------------
+%                                                      END Header
+% ---------------------------------------------------------------------------------------------------------------------------
 
-
-for j = 1: size(Data,3) % numéro total du pas de temps
-    fprintf(fVar, '%s %8d %7d %s\n', ':Frame',j ,j, dtime_str(j,:)); % ligne des dates
+% Creating frames date
+for j = 1: size(Data,3) 
+    fprintf(fVar, '%s %8d %7d %s\n', ':Frame',j ,j, dtime_str(j,:)); % Dates lines. Defining Frames' name
     Variable = squeeze(Data(:,:,j));
-    [Xq,Yq] = meshgrid(1:5,1:7); % resize 5x7
+    [Xq,Yq] = meshgrid(1:xCount,1:yCount); % resize 5x7
     Variable = interp2(Variable, Xq, Yq);% interpolation of data in the resize 5x7
     fprintf(fVar, fmt, Variable.');
     fprintf(fVar, '%s\n', ':EndFrame');
 end
-    fclose(fVar);% fermer le fichier r2c
+    fclose(fVar);
 end
     
