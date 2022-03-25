@@ -4,13 +4,15 @@ This repository contains files with Matlab code used to create the meteorologica
 using the [ERA5-Land](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-land?tab=overview) hourly data Reanalysis. The objective is to create a complete time series from several netCDF (.nc) files, convert them to local time, and generate a \*.r2c file for each meteorological variable.
 
     .
-    ├── build                   # Compiled files (alternatively `dist`)
+    ├── ...
     ├── docs                    # Documentation files (alternatively `doc`)
-    ├── src                     # Source files (alternatively `lib` or `app`)
-    ├── test                    # Automated tests (alternatively `spec` or `tests`)
-    ├── tools                   # Tools and utilities
-    ├── LICENSE
-    └── README.md
+    │   ├── TOC.md              # Table of contents
+    │   ├── faq.md              # Frequently asked questions
+    │   ├── misc.md             # Miscellaneous information
+    │   ├── usage.md            # Getting started guide
+    │   └── ...                 # etc.
+    └── ...
+
 
 ## Functions
  The following gives a brief description of the individual files:
@@ -95,3 +97,12 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
     ├── OutputERA5-Land         #: Folder with the .mat files (**OutPath** of the **main.m** function and **dataPath** of the **Creating_r2c.m function**) 
     └── r2cFiles                #: Folder with the .r2c files (**OutPath** of the **Creating_r2c.m function**)
 
+    .
+    ├── ...
+    ├── docs                    # Documentation files (alternatively `doc`)
+    │   ├── TOC.md              # Table of contents
+    │   ├── faq.md              # Frequently asked questions
+    │   ├── misc.md             # Miscellaneous information
+    │   ├── usage.md            # Getting started guide
+    │   └── ...                 # etc.
+    └── ...
