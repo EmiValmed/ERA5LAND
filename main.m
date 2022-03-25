@@ -1,23 +1,32 @@
+function main
 clear; close all; clc
 %% Declarations
 
 % Directories
-dataPath= 'Path where the .nc files are located'  ;                                  % To modify                          
-OutPath=  'Path where you want to save the results of the concatenated values'   ;   % To modify      
-addpath(dataPath);
-addpath(OutPath);
+ncPath   =  'I:\MARINA\Riviere_St_anne_code_data - Copie\MESH-ERA5Land\netCDF_Files';                        % To modify
+matPath  =  'I:\MARINA\Riviere_St_anne_code_data - Copie\MESH-ERA5Land\OutputERA5-Land';  addpath(matPath);  % To modify
+r2cPath  =  'I:\MARINA\Riviere_St_anne_code_data - Copie\MESH-ERA5Land\r2cFiles';         addpath(r2cPath);  % To modify
 
-if ~exist(fullfile(OutPath), 'dir')
-    mkdir(fullfile(OutPath)); addpath(OutPath);
-end
+% Coordinates origine, delta and count
 
-% Variable specifications
-VarName     = 't2m';                   % To modify
-Name        = 'Temperature';           % To modify
-AccVariable = 0; % could be 0 or 1     % To modify
+xOrigin  = -86.9235;   % To modify
+yOrigin  = 48.7076;    % To modify
+xCount   = 5;          % To modify
+yCount   = 7;          % To modify
+xDelta   = 0.205960;   % To modify
+yDelta   = 0.134740';  % To modify
+
+                       % ----------------------------------------------------------------------------------------------------
+                       % Note: The values written above correspond to the MESH Sample. This should be changed according to  
+                       % the project data. In the r2cFile.m function, there is a definition of each value and how they can be 
+                       % obtained from the latitude and longitude of the netCDF files.These values should be the same for all 
+                       % variables.
+                       % ----------------------------------------------------------------------------------------------------
+
 
 % Time difference between UTC and the local time
-LocalZone = '-05:00';  % To modify
+
+LocalZone = '-00:00';  % To modify
 
                        % ----------------------------------------------------------------------------------------------------
                        % Note: You can specify the time zone value as a character vector of the form +HH:mm or -HH:mm, which
@@ -26,12 +35,41 @@ LocalZone = '-05:00';  % To modify
                        % Numbers Authority (IANA) Time Zone Database. Run the function timezones in the command Windows to
                        % display a list of all IANA time zones accepted by the datetime function.
                        % ----------------------------------------------------------------------------------------------------
+                       
+% ---------------------------------------------------------------------------------------------------------------------------
+%                                             DO NOT TOUCH FROM HERE
+% ---------------------------------------------------------------------------------------------------------------------------
+%% Loop to extract each variable   
 
-%% -------------------------------------------------- DO NOT TOUCH FROM HERE ------------------------------------------------
+% Creating output directoy if it does not exist
+if ~exist(fullfile(matPath), 'dir')
+    mkdir(fullfile(matPath)); addpath(matPath);
+end
+if ~exist(fullfile(r2cPath), 'dir')
+    mkdir(fullfile(r2cPath)); addpath(r2cPath);
+end
 
-%% Extracting and concatenating variables to local time
+% Variable setting
+VarName_nc     = {'d2m';'sp';'t2m';'tp';'ssrd';'strd';'u10';'v10'};         
+VarName        = {'DewPoint';'Pressure';'Temperature';'Precipitation';...
+    'Shortwave';'Longwave';'Wind_u';'Wind_v'};                              
+VarType        = [0,0,0,1,1,1,0,0];                                        
 
-ERA5LAND_Extract(VarName_nc,VarName,VarType,LocalZone,dataPath,OutPath)
 
+for iVar = 1:length(VarName)
+    
+    % NetCDF files directories
+    dataPathVar = sprintf('%s/%s/',ncPath,VarName{iVar}) ; 
+    addpath(dataPathVar);
+   
+   
+    %% Extracting and concatenating variables to local time
+    
+    ERA5LAND_Extract(VarName_nc{iVar},VarName{iVar},VarType(iVar),LocalZone,dataPathVar,matPath)
+end
+
+%% Creating .r2c Files
+
+Creating_r2c(r2cPath,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
 %% -----------------------------------------------------------END------------------------------------------------------------
 clear
