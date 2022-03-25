@@ -74,17 +74,23 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
     MESH-ERA5Land          : main folder
     
     .
-    ├── netCDF_Files        #: Folder with the .nc data  (**dataPath** of the **main.m** function)             
-    │   ├── DewPoint        #: Folder with DewPoint .nc files
-    │   ├── Longwave        #: Folder with Longwave .nc files
-    │   ├── Precipitation   #: Folder with Precipitation .nc files
-    │   ├── Pressure        #: Folder with Pressure .nc files
-    │   ├── Shortwave       #: Folder with Shortwave .nc files
-    │   ├── Temperature     #: Folder with Temperature .nc files
-    │   ├── Wind_u          #: Folder with u wind component .nc files
-    │   └── Wind_v          #: Folder with V wind component .nc files
-    ├── OutputERA5-Land     #: Folder with the .mat files (**OutPath** of the **main.m** function and **dataPath** of the **Creating_r2c.m function**) 
-    └── r2cFiles            #: Folder with the .r2c files (**OutPath** of the **Creating_r2c.m function**)
+    ├── netCDF_Files            #: Folder with the .nc data  (**dataPath** of the **main.m** function)             
+    │   ├── DewPoint            #: Folder with DewPoint .nc files
+    │   ├── Longwave            #: Folder with Longwave .nc files
+    │   ├── Precipitation       #: Folder with Precipitation .nc files
+    │   ├── Pressure            #: Folder with Pressure .nc files
+    │   ├── Shortwave           #: Folder with Shortwave .nc files
+    │   ├── Temperature         #: Folder with Temperature .nc files
+    │   ├── Wind_u              #: Folder with u wind component .nc files
+    │   └── Wind_v              #: Folder with V wind component .nc files
+    ├── OutputERA5-Land         #: Folder with the .mat files (**OutPath** of the **main.m** function and **dataPath** of the **Creating_r2c.m function**) 
+    └── r2cFiles                #: Folder with the .r2c files (**OutPath** of the **Creating_r2c.m function**)
 
-
+    .
+    ├── ...
+    ├── test                    # Test files (alternatively `spec` or `tests`)
+    │   ├── benchmarks          # Load and stress tests
+    │   ├── integration         # End-to-end, integration tests (alternatively `e2e`)
+    │   └── unit                # Unit tests
+    └── ...
 
