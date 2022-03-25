@@ -75,7 +75,6 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
     
     .
     ├── netCDF_Files        #: Folder with the .nc data  (**dataPath** of the **main.m** function)             
-    │   │
     │   ├── DewPoint        #: Folder with DewPoint .nc files
     │   ├── Longwave        #: Folder with Longwave .nc files
     │   ├── Precipitation   #: Folder with Precipitation .nc files
