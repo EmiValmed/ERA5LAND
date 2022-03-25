@@ -3,17 +3,6 @@
 This repository contains files with Matlab code used to create the meteorological inputs of the land-surface model [MESH](https://wiki.usask.ca/display/MESH/About+MESH)
 using the [ERA5-Land](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-land?tab=overview) hourly data Reanalysis. The objective is to create a complete time series from several netCDF (.nc) files, convert them to local time, and generate a \*.r2c file for each meteorological variable.
 
-    .
-    ├── ...
-    ├── docs                    # Documentation files (alternatively `doc`)
-    │   ├── TOC.md              # Table of contents
-    │   ├── faq.md              # Frequently asked questions
-    │   ├── misc.md             # Miscellaneous information
-    │   ├── usage.md            # Getting started guide
-    │   └── ...                 # etc.
-    └── ...
-
-
 ## Functions
  The following gives a brief description of the individual files:
  * **main.m**: In this script, we specify the **Input** parameters (see below) of the ERA5LAND_EXTRACT.m. 
@@ -80,12 +69,15 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
       
 * The .nc file should only contain one variable.  
 
-* This Repository must cotains the following folders:
 
- ## Repository Folder    
-    MESH-ERA5Land               #: main folder
+
+ ## Repository Folder 
+ This Repository must cotains the following folders:
+   
+
     .
-    ├── netCDF_Files            #: Folder with the .nc data  (**dataPath** of the **main.m** function)             
+    MESH-ERA5Land               #: main folder
+    ├── netCDF_Files            #: Folder with the .nc data  (dataPath of the main.m function)             
     │   ├── DewPoint            #: Folder with DewPoint .nc files
     │   ├── Longwave            #: Folder with Longwave .nc files
     │   ├── Precipitation       #: Folder with Precipitation .nc files
@@ -94,15 +86,6 @@ The output is a Matlab file (**VarName.mat**) with the following variables:
     │   ├── Temperature         #: Folder with Temperature .nc files
     │   ├── Wind_u              #: Folder with u wind component .nc files
     │   └── Wind_v              #: Folder with V wind component .nc files
-    ├── OutputERA5-Land         #: Folder with the .mat files (**OutPath** of the **main.m** function and **dataPath** of the **Creating_r2c.m function**) 
-    └── r2cFiles                #: Folder with the .r2c files (**OutPath** of the **Creating_r2c.m function**)
+    ├── OutputERA5-Land         #: Folder with the .mat files (OutPath of the main.m function and dataPath of the Creating_r2c.m function) 
+    └── r2cFiles                #: Folder with the .r2c files (OutPath of the Creating_r2c.m function)
 
-    .
-    ├── ...
-    ├── docs                    # Documentation files (alternatively `doc`)
-    │   ├── TOC.md              # Table of contents
-    │   ├── faq.md              # Frequently asked questions
-    │   ├── misc.md             # Miscellaneous information
-    │   ├── usage.md            # Getting started guide
-    │   └── ...                 # etc.
-    └── ...
