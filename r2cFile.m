@@ -1,4 +1,4 @@
-function r2cFile(Data,Date,OutPath,OutName,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+function r2cFile(Data,Date,OutPath,OutName,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 %function r2cFile(Data,Date,OutPath,OutName,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
 % INPUTS
 %       -Data                :  Meteorological variable time series.
@@ -33,43 +33,43 @@ function r2cFile(Data,Date,OutPath,OutName,xOrigin,yOrigin,xCount,yCount,xDelta,
 
 switch lower( OutName ) 
     case 'rain'
-        fmt = [repmat(' %.7f ', 1, 5) '\n']; 
+        fmt = [repmat(' %.7f ', 1, yCount) '\n']; 
         KeyName = 'PR0';
         VarName = 'Precipitation_rate';
         Unit    = 'mm/s';
         
     case 'humidity'
-        fmt = [repmat(' %.6f ', 1, 5) '\n']; 
+        fmt = [repmat(' %.6f ', 1, yCount) '\n']; 
         KeyName = 'HU';
         VarName =  'Specific_humidity';
         Unit    = ' kg/kg';
         
     case 'pres'
-        fmt = [repmat(' %.1f ', 1, 5) '\n']; 
+        fmt = [repmat(' %.1f ', 1, yCount) '\n']; 
         KeyName = 'PO';
         VarName = 'Surface_Pressure';
         Unit = 'Pa';
         
     case 'temperature'
-        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        fmt = [repmat(' %.2f ', 1, yCount) '\n']; 
         KeyName = 'TT';
         VarName = 'Air_temperature_40m';
         Unit = 'K';
         
     case 'longwave'
-        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        fmt = [repmat(' %.2f ', 1, yCount) '\n']; 
         KeyName = 'FI';
         VarName = 'Longwave_down';
         Unit = 'W/m2';
         
     case 'shortwave'
-        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        fmt = [repmat(' %.2f ', 1, yCount) '\n']; 
         KeyName = 'FB';
         VarName = 'Shortwave_down';
         Unit = 'W/m2';
         
     case 'wind'
-        fmt = [repmat(' %.2f ', 1, 5) '\n']; 
+        fmt = [repmat(' %.2f ', 1, yCount) '\n']; 
         KeyName = 'UV';
         VarName = 'Wind_speed';
         Unit = 'm/s';
@@ -127,14 +127,19 @@ fprintf(fVar, '%s\n', ':endHeader');
 % ---------------------------------------------------------------------------------------------------------------------------
 
 % Creating frames date
-for j = 1: size(Data,3) 
+for j = 1:size(Data,3)
     fprintf(fVar, '%s %8d %7d %s\n', ':Frame',j ,j, dtime_str(j,:)); % Dates lines. Defining Frames' name
-    Variable = squeeze(Data(:,:,j));
-    [Xq,Yq] = meshgrid(1:xCount,1:yCount); % resize 5x7
-    Variable = interp2(Variable, Xq, Yq);% interpolation of data in the resize 5x7
+    if Reducc == 1
+        Variable = squeeze(Data(:,:,j));
+        [Xq,Yq] = meshgrid(1:xCount,1:yCount); % resize 
+        Variable = interp2(Variable,Xq,Yq);    % Reducing data       
+    elseif Reducc== 0
+        Variable = squeeze(Data(:,:,j));
+    end
     fprintf(fVar, fmt, Variable.');
     fprintf(fVar, '%s\n', ':EndFrame');
 end
-    fclose(fVar);
+fclose(fVar);
 end
+
     
