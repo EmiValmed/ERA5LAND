@@ -1,4 +1,4 @@
-function Creating_r2c (OutPath,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+function Creating_r2c (OutPath,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 %% Declarations
 
 % Directories
@@ -10,19 +10,19 @@ addpath(genpath('OutputERA5-Land'));
 load('Precipitation.mat','Date','Data');
 tp = Data*(1000/3600); 
 
-r2cFile(tp,Date,OutPath,'rain',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+r2cFile(tp,Date,OutPath,'rain',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 
 %% Surface pressure in Pa
 load('Pressure.mat','Date','Data');
 sp = Data;
 
-r2cFile(sp,Date,OutPath,'pres',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+r2cFile(sp,Date,OutPath,'pres',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 
 %% Air surface temperature in K
 load('Temperature.mat','Date','Data');
 t2m = Data;
 
-r2cFile(t2m,Date,OutPath,'temperature',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+r2cFile(t2m,Date,OutPath,'temperature',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 
 %% Specific Humidity in Kg/Kg
 
@@ -45,19 +45,19 @@ e_a = RH.*(10.^(aux)); %surface presure (Pa)
 q(:,:,i) = 0.622*e_a./(sp(:,:,i) - 0.378*e_a);
 end
 
-r2cFile(q,Date,OutPath,'humidity',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+r2cFile(q,Date,OutPath,'humidity',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 
 %% Shortwave  in W/m2
 load('Shortwave.mat','Date','Data');
 ssrd = Data*(1/3600);
 
-r2cFile(ssrd,Date,OutPath,'shortwave',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+r2cFile(ssrd,Date,OutPath,'shortwave',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 
 %% Longwave  in W/m2
 load('Longwave.mat','Date','Data');
 strd = Data*(1/3600);
 
-r2cFile(strd,Date,OutPath,'longwave',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+r2cFile(strd,Date,OutPath,'longwave',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 
 %% u10 Wind component
 load('Wind_u.mat','Date','Data');
@@ -69,4 +69,4 @@ v10 = Data;
 
 ws = sqrt(u10.*u10 + v10.*v10); % wind_speed is the module of the two components u10 and v10
 
-r2cFile(ws,Date,OutPath,'wind',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+r2cFile(ws,Date,OutPath,'wind',xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
