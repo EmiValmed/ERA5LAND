@@ -23,6 +23,13 @@ yDelta   = 0.134740';  % To modify
                        % variables.
                        % ----------------------------------------------------------------------------------------------------
 
+% Reduction
+Reducc = 0 ; % To modify
+
+                       % ----------------------------------------------------------------------------------------------------
+                       % Note: This variable specifies whether to work with the complete grid (0) or with a sample (1).
+                       % ----------------------------------------------------------------------------------------------------
+
 
 % Time difference between UTC and the local time
 
@@ -70,6 +77,6 @@ end
 
 %% Creating .r2c Files
 
-Creating_r2c(r2cPath,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta)
+Creating_r2c(r2cPath,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
 %% -----------------------------------------------------------END------------------------------------------------------------
 clear
