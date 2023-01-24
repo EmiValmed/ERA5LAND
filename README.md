@@ -17,7 +17,7 @@ using the [ERA5-Land](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanaly
 
 ##  main.m function
 ### Variables to modify:
- * **ncPath**: Path where the \*.nc files are located (netCDF_Files folder).
+ * **mainPath**: Path of the directory where the main file is located .
  * **shpPath**:  Path of the shapefile to create a mask.
  * **LocalZone**: Time difference between UTC and the local time (e.g., -05:00 for Quebec).
  * **CatchName**: The study area/catchment name (must be equal to the name of the shapefile).
