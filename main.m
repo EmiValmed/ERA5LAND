@@ -3,10 +3,10 @@ clear; close all; clc
 %% Declarations
 
 % Directories
-mainPath =  'Main directory';
-ncPath   =  'netCDF_Files path';               % To modify
-matPath  =  'OutputERA5-Land matlab files';    % To modify
-r2cPath  =  'r2cFiles path';                   % To modify
+mainPath =  'Main directory';                  % To modify  
+ncPath   =  fullfile(mainPath,'netCDF_Files');       
+matPath  =  fullfile(mainPath,'OutputERA5-Land');    
+r2cPath  =  fullfile(mainPath,'r2cFiles');           
 shpPath  =  'Shapefile path';                  % To modify                                            
 
 % Coordinates origine, delta and count (MESH parameters)
