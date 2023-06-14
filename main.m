@@ -51,6 +51,11 @@ LocalZone = '-00:00';  % To modify
 CatchName = '030282';% To modify                                           % The name of the catchment must match the name of the shapefile. 
                                                                            % e.g., CathmentName = '030282' --> Shapefilename = '030282.shp'
 
+% MESH simulation period
+
+Start = '2021-10-01 00:00:00'; % To modify  
+End   = '2022-01-01 00:00:00'; % To modify  
+DateSim = datenum(Start):1/24:datenum(End);
 
 % ---------------------------------------------------------------------------------------------------------------------------
 %                                             DO NOT TOUCH FROM HERE
@@ -78,7 +83,7 @@ VarType        = [0,0,0,1,1,1,0,0];                                        % A v
                                                                            % beginning of the forecast time to the end of the forecast step.                                      
 
 
-for iVar = 4:length(VarName)
+for iVar = 1:length(VarName)
     
     % NetCDF files directories
     dataPathVar = sprintf('%s/%s/',ncPath,VarName{iVar}) ; 
@@ -88,11 +93,12 @@ for iVar = 4:length(VarName)
     %% Extracting and concatenating variables to local time
     
     ERA5LAND_Extract(VarName_nc{iVar},VarName{iVar},VarType(iVar),LocalZone,CatchName,dataPathVar,matPath,shpPath)
-    
+
+        
 end
 
 %% Creating .r2c Files
 
-Creating_r2c(r2cPath,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc)
+Creating_r2c(r2cPath,xOrigin,yOrigin,xCount,yCount,xDelta,yDelta,Reducc,DateSim)
 %% -----------------------------------------------------------END------------------------------------------------------------
 clear
